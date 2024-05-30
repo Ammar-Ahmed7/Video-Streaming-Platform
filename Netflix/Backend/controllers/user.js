@@ -74,6 +74,7 @@ const Register = async (req, res) => {
                 message: "This email is already used",
                 success: false,
             });
+            
         }
 
         const hashedPassword = await bcryptjs.hash(password, 16);

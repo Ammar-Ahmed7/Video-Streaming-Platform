@@ -39,49 +39,35 @@ const Feature = ({ type }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/movies');
-        const data = await response.json();
-        setMovies(data);
-
-        if (data.length > 0) {
-          const randomIndex = Math.floor(Math.random() * data.length);
-          setRandomMovie(data[randomIndex]);
+        const movieResponse = await fetch('http://localhost:3000/api/movies');
+        const movieData = await movieResponse.json();
+  
+        const tvResponse = await fetch('http://localhost:3000/api/tv');
+        const tvData = await tvResponse.json();
+  
+        // Combine movieData and tvData arrays
+        const combinedData = [...movieData, ...tvData];
+  
+        setMovies(combinedData);
+  
+        if (combinedData.length > 0) {
+          const randomIndex = Math.floor(Math.random() * combinedData.length);
+          setRandomMovie(combinedData[randomIndex]);
         }
         setIsLoaded(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
-
+  
     return () => {};
   }, []);
-
   return (
     <>
       <div className='relative'>
-        {type && (
-          <div className='Catagory absolute top-16 left-6 space-x-3'>
-            <span className='text-white font-extrabold'>{type === "movie" ? "Movie" : "Series"}</span>
-            <select className='bg-black text-white cursor-pointer border-2 ' name="genre" id="genre">
-              <option>Genre</option>
-              <option value="adventure">Adventure</option>
-              <option value="comedy">Comedy</option>
-              <option value="crime">Crime</option>
-              <option value="fantasy">Fantasy</option>
-              <option value="historical">Historical</option>
-              <option value="horror">Horror</option>
-              <option value="romance">Romance</option>
-              <option value="sci-fi">Sci-Fi</option>
-              <option value="thriller">Thriller</option>
-              <option value="western">Western</option>
-              <option value="animation">Animation</option>
-              <option value="drama">Drama</option>
-              <option value="documentary">Documentary</option>
-            </select>
-          </div>
-        )}
+        
 
         {randomMovie && (
           <div key={randomMovie._id} className='w-[vw] overflow-hidden'>
@@ -92,7 +78,7 @@ const Feature = ({ type }) => {
               frameBorder="0"
               allowFullScreen
               autoPlay
-              loop={true}
+              loop
               muted
             ></video>
 
@@ -103,11 +89,11 @@ const Feature = ({ type }) => {
               unmountOnExit
             >
               <div className='info absolute bottom-[80px] left-10 w-[190px] flex-col space-y-3 sm:w-[500px] sm:bottom-[30px] lg:w-[700px] lg:bottom-[200px]'>
-                <span className='title text-white font-bold text-[100px]'>
+                <span className='title text-white font-bold text-[40px]'>
                   {randomMovie.title}
                 </span>
                 <br />
-                <span className='title text-white font-normal text-[50px]'>
+                <span className='title text-white font-normal text-[20px]'>
                   {randomMovie.description}
                 </span>
                 <div className='buttons space-x-3'>

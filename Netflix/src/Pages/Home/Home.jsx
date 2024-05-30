@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Feature from '../../components/Featured/Feature';
 import List from '../../components/Lists/List';
+import backgroundMusic from '../../../sound/backgroundMusic.mp3'
 
 const Home = () => {
   const [movieClicked, setMovieClicked] = useState(false);
@@ -19,8 +20,21 @@ const Home = () => {
       handleSearch();
     }
   };
+  useEffect(() => {
+    const audio = new Audio(backgroundMusic);
+    audio.loop = true;
+    audio.volume = 0.08;
+    audio.play();
+    
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
 
   return (
+    <>
     <div className='bg-black overflow-hidden relative'>
       <Navbar setMovieClicked={setMovieClicked} setSeriesClicked={setSeriesClicked} setSearchClicked={setSearchClicked} />
       {searchClicked && (
@@ -41,6 +55,7 @@ const Home = () => {
       {!seriesClicked && <List title="Movies" query={query} />} {/* Pass query to List */}
       {!movieClicked && <List title="TV Series" query={query} />} {/* Pass query to List */}
     </div>
+    </>
   );
 }
 

@@ -32,6 +32,7 @@ const Login = () => {
                     navigate("/home");
                 }
             } catch (error) {
+                alert("User not found");
                 console.error(error);
                 // Handle error
             } finally {
@@ -53,6 +54,7 @@ const Login = () => {
                     setIsLogin(true);
                 }
             } catch (error) {
+                alert("User Already Registered");
                 console.error(error);
                 // Handle error
             } finally {
