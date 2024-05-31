@@ -28,7 +28,7 @@ const ListItems = ({ item, listTitle }) => {
   return (
     <div className='relative'>
       <div
-        className="bg-black w-[200px] hover:absolute hover:z-50 hover:top-[-150px] h-[100px] overflow-hidden cursor-pointer hover:w-[212px] hover:h-[260px] sm:max-2xl:hover:w-[300px] sm:max-2xl:hover:h-[300px] 2xl:hover:w-[300px] 2xl:hover:h-[300px] sm:max-2xl:hover:top-[-172px] 2xl:hover:top-[-172px] listi"
+        className="bg-black w-[200px] hover:absolute hover:z-50 hover:top-[-150px] h-[100px] overflow-hidden cursor-pointer hover:w-[212px] hover:h-[260px] sm:max-2xl:hover:w-[300px] sm:max-2xl:hover:h-[350px] 2xl:hover:w-[300px] 2xl:hover:h-[300px] sm:max-2xl:hover:top-[-210px] 2xl:hover:top-[-210px] listi"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={() => navigate(`/watch/${item._id}`)}

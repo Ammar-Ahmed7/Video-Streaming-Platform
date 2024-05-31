@@ -21,37 +21,35 @@ const AdminPage = () => {
     }
   };
 
-const onSubmitAdd = async (data) => {
-  const formData = new FormData();
-  formData.append('title', data.title);
-  formData.append('description', data.description);
-  formData.append('duration', data.duration);
-  formData.append('age', data.age);
-  formData.append('release', data.release);
-  formData.append('genre', data.genre);
-  formData.append('videoFile', data.videoFile[0]);
-  formData.append('trailerFile', data.trailerFile[0]);
-  formData.append('imageFile', data.imageFile[0]);
+  const onSubmitAdd = async (data) => {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('description', data.description);
+    formData.append('duration', data.duration);
+    formData.append('age', data.age);
+    formData.append('release', data.release);
+    formData.append('genre', data.genre);
+    formData.append('videoFile', data.videoFile[0]);
+    formData.append('trailerFile', data.trailerFile[0]);
+    formData.append('imageFile', data.imageFile[0]);
 
-  try {
-    const response = await axios.post(`http://localhost:3000/api/${mediaType}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log(`${mediaType} added:`, response.data);
-    reset();
-    fetchMedia(); // This should fetch the correct media based on the updated mediaType
-  } catch (error) {
-    console.error(`Error adding ${mediaType}:`, error);
-  }
-};
-
+    try {
+      const response = await axios.post(`http://localhost:3000/api/${mediaType}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(`${mediaType} added:`, response.data);
+      reset();
+      fetchMedia();
+    } catch (error) {
+      console.error(`Error adding ${mediaType}:`, error);
+    }
+  };
 
   const handleMediaTypeChange = (e) => {
     setMediaType(e.target.value);
   };
-  console.log(mediaType)
 
   const onSubmitDelete = async (id) => {
     try {
@@ -96,22 +94,23 @@ const onSubmitAdd = async (data) => {
       duration: media.duration,
       age: media.age,
       release: media.release,
-      genre: media.genre
+      genre: media.genre,
     });
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl mb-4">Admin Panel</h1>
+    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Admin Panel</h1>
 
       {/* Select Media Type */}
-      <div>
-        <label>
+      <div className="flex justify-center mb-6">
+        <label className="mr-4">
           <input
             type="radio"
             value="movies"
             checked={mediaType === 'movies'}
             onChange={handleMediaTypeChange}
+            className="mr-2"
           />
           Movie
         </label>
@@ -121,211 +120,141 @@ const onSubmitAdd = async (data) => {
             value="tv"
             checked={mediaType === 'tv'}
             onChange={handleMediaTypeChange}
+            className="mr-2"
           />
           TV Series
         </label>
       </div>
 
       {/* Add New Media */}
-      <h2 className="text-xl mb-4">Add New {mediaType === 'movies' ? 'Movie' : 'TV Show'}</h2>
-      <form onSubmit={handleSubmit(onSubmitAdd)} className="space-y-4">
-        {/* Form fields for adding new media */}
-        <div>
-          <label className="block text-sm font-medium">Title</label>
-          <input
-            type="text"
-            {...register('title', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Description</label>
-          <textarea
-            {...register('description', { required: true })}
-            className="mt-1 block w-full"
-          ></textarea>
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Duration</label>
-          <input
-            type="text"
-            {...register('duration', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Age</label>
-          <input
-            type="text"
-            {...register('age', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Release</label>
-          <input
-            type="text"
-            {...register('release', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Genre</label>
-          <input
-            type="text"
-            {...register('genre', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Video File</label>
-          <input
-            type="file"
-            {...register('videoFile', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Trailer File</label>
-          <input
-            type="file"
-            {...register('trailerFile', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Image File</label>
-          <input
-            type="file"
-            {...register('imageFile', { required: true })}
-            className="mt-1 block w-full"
-          />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-4">
-          Upload
-        </button>
-      </form>
-
-      {/* Delete Media */}
-      <h2 className="text-xl mt-8 mb-4">Delete {mediaType === 'movies' ? 'Movie' : 'TV Show'}</h2>
-      <div className="space-y-4">
-        {media.map((mediaItem) => (
-          <div key={mediaItem._id} className="border p-2">
-            <p>{mediaItem.title}</p>
-            <button onClick={() => onSubmitDelete(mediaItem._id)} className="bg-red-500 text-white px-4 py-2 mt-2">
-              Delete
-            </button>
+      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 className="text-2xl font-semibold mb-4">
+          Add New {mediaType === 'movies' ? 'Movie' : 'TV Show'}
+        </h2>
+        <form onSubmit={handleSubmit(onSubmitAdd)} className="space-y-4">
+          {/* Form fields for adding new media */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Title</label>
+            <input
+              type="text"
+              {...register('title', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
           </div>
-        ))}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <textarea
+              {...register('description', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Duration</label>
+            <input
+              type="text"
+              {...register('duration', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Age</label>
+            <input
+              type="text"
+              {...register('age', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Release</label>
+            <input
+              type="text"
+              {...register('release', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Genre</label>
+            <input
+              type="text"
+              {...register('genre', { required: true })}
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Video File</label>
+            <input
+              type="file"
+              {...register('videoFile', { required: true })}
+              className="mt-1 block w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Trailer File</label>
+            <input
+              type="file"
+              {...register('trailerFile', { required: true })}
+              className="mt-1 block w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Image File</label>
+            <input
+              type="file"
+              {...register('imageFile', { required: true })}
+              className="mt-1 block w-full"
+            />
+          </div>
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            Upload
+          </button>
+        </form>
       </div>
 
-      {/* Update Media */}
-     {/* Update Media */}
-<h2 className="text-xl mt-8 mb-4">Update {mediaType === 'movies' ? 'Movie' : 'TV Show'}</h2>
-{selectedMedia && (
-  <form onSubmit={handleSubmit(onSubmitUpdate)} className="space-y-4">
-    {/* Form fields for updating media */}
-    <div>
-      <label className="block text-sm font-medium">Title</label>
-      <input
-        type="text"
-        {...register('title')}
-        defaultValue={selectedMedia.title}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Description</label>
-      <textarea
-        {...register('description')}
-        defaultValue={selectedMedia.description}
-        className="mt-1 block w-full"
-      ></textarea>
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Duration</label>
-      <input
-        type="text"
-        {...register('duration')}
-        defaultValue={selectedMedia.duration}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Age</label>
-      <input
-        type="text"
-        {...register('age')}
-        defaultValue={selectedMedia.age}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Release</label>
-      <input
-        type="text"
-        {...register('release')}
-        defaultValue={selectedMedia.release}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Genre</label>
-      <input
-        type="text"
-        {...register('genre')}
-        defaultValue={selectedMedia.genre}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Video File</label>
-      <input
-        type="file"
-        {...register('videoFile')}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Trailer File</label>
-      <input
-        type="file"
-        {...register('trailerFile')}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium">Image File</label>
-      <input
-        type="file"
-        {...register('imageFile')}
-        className="mt-1 block w-full"
-      />
-    </div>
-    <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-4">
-      Update
-    </button>
-  </form>
-)}
-
+      {/* Delete Media */}
+      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 className="text-2xl font-semibold mb-4">
+          Delete {mediaType === 'movies' ? 'Movie' : 'TV Show'}
+        </h2>
+        <div className="space-y-4">
+          {media.map((mediaItem) => (
+            <div key={mediaItem._id} className="flex justify-between items-center border p-2 rounded-md">
+              <p>{mediaItem.title}</p>
+              <button
+                onClick={() => onSubmitDelete(mediaItem._id)}
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Display Media */}
-      <h2 className="text-xl mt-8 mb-4">{mediaType === 'movies' ? 'Movies' : 'TV Shows'} List</h2>
-      <div>
-        {media.map((mediaItem) => (
-          <div key={mediaItem._id} className="border p-2 mt-4" onClick={() => selectMedia(mediaItem)}>
-            <p>Title: {mediaItem.title}</p>
-            <p>Description: {mediaItem.description}</p>
-            <p>Duration: {mediaItem.duration}</p>
-            <p>Age: {mediaItem.age}</p>
-            <p>Release: {mediaItem.release}</p>
-            <p>Genre: {mediaItem.genre}</p>
-            <p>Video: {mediaItem.videoUrl}</p>
-            <p>Trailer: {mediaItem.trailerUrl}</p>
-            <p>Image: {mediaItem.imageUrl}</p>
-            {/* Display video trailer and image */}
-          </div>
-        ))}
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-4">
+          {mediaType === 'movies' ? 'Movies' : 'TV Shows'} List
+        </h2>
+        <div className="space-y-4">
+          {media.map((mediaItem) => (
+            <div
+              key={mediaItem._id}
+              className="border p-4 rounded-md cursor-pointer hover:bg-gray-100"
+              onClick={() => selectMedia(mediaItem)}
+            >
+              <p className="font-semibold">Title: {mediaItem.title}</p>
+              <p>Description: {mediaItem.description}</p>
+              <p>Duration: {mediaItem.duration}</p>
+              <p>Age: {mediaItem.age}</p>
+              <p>Release: {mediaItem.release}</p>
+              <p>Genre: {mediaItem.genre}</p>
+              <p>Video: {mediaItem.videoUrl}</p>
+              <p>Trailer: {mediaItem.trailerUrl}</p>
+              <p>Image: {mediaItem.imageUrl}</p>
+              {/* Display video trailer and image */}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
