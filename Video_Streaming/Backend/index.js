@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
     /* eslint-disable no-undef */
     const express = require('express');
     const mongoose = require('mongoose');
@@ -171,3 +172,39 @@
             res.status(500).json({ message: error.message });
         }
     });
+
+   // API to add seasons
+app.post('/api/tv/:id/seasons', async (req, res) => {
+    try {
+        const tvShow = await TV.findById(req.params.id);
+        if (!tvShow) {
+            return res.status(404).json({ message: 'TV show not found' });
+        }
+        const { seasonNumber, episodes } = req.body;
+        tvShow.seasons.push({ seasonNumber, episodes });
+        await tvShow.save();
+        res.status(201).json(tvShow);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.post('/api/tv/:tvId/seasons/:seasonId/episodes', async (req, res) => {
+    try {
+        const tvShow = await TV.findById(req.params.tvId);
+        if (!tvShow) {
+            return res.status(404).json({ message: 'TV show not found' });
+        }
+        const season = tvShow.seasons.id(req.params.seasonId);
+        if (!season) {
+            return res.status(404).json({ message: 'Season not found' });
+        }
+        const { title, videoUrl } = req.body;
+        season.episodes.push({ title, videoUrl });
+        await tvShow.save();
+        res.status(201).json(tvShow);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+  

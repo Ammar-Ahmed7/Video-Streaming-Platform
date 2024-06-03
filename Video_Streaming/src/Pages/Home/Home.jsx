@@ -25,7 +25,7 @@ const Home = () => {
     const audio = new Audio(backgroundMusic);
     audio.loop = true;
     audio.volume = 1;
-    audio.play();
+   
     
 
     return () => {

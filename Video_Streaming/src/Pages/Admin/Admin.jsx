@@ -101,6 +101,8 @@ const AdminPage = () => {
     });
   };
 
+
+
   const logout = () => {
     localStorage.removeItem('jwtToken'); // Remove JWT token from localStorage
      navigate('/')
@@ -212,6 +214,7 @@ const AdminPage = () => {
               className="mt-1 block w-full"
             />
           </div>
+         
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
             Upload
           </button>
@@ -261,7 +264,7 @@ const AdminPage = () => {
               <p>Image: {mediaItem.imageUrl}</p>
               {/* Display video trailer and image */}
             </div>
-          ))}
+          ))};
         </div>
       </div>
       <button className='bg-blue-800' onClick={logout}>Logout</button>

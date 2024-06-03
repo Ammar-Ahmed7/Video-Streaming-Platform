@@ -45,7 +45,8 @@ const Login = () => {
                             alert("Unauthorized access");
                         }
                     } else {
-                        navigate("/home"); // Redirect to /home upon successful user login
+                        navigate("/home");
+                        // Redirect to /home upon successful user login
                     }
                 } else {
                     navigate("/");
@@ -70,6 +71,7 @@ const Login = () => {
                 });
                 if (res.data.success) {
                     setIsLogin(true);
+                    alert(`You are successfully Registered ${fullName}`);
                 }
             } catch (error) {
                 alert("User Already Registered");

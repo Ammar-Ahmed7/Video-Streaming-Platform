@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
